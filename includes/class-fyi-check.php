@@ -25,7 +25,7 @@ class FYI_Check
     public function update_check()
     {
         $result = [];
-        $result['general'] = wp_get_update_data();;
+        $result['general'] = wp_get_update_data();
         $result['core'] = self::core();
         $result['plugins'] = self::plugins();
         $result['themes'] = self::themes();
@@ -41,11 +41,19 @@ class FYI_Check
     {
         $updates = [];
         $result = [];
+
         $result = get_site_transient('update_core');
+        if (!$result) {
+            $result = get_site_option( '_site_transient_update_core');
+        }
+
         $result = json_decode(json_encode($result), true);
         $locale = get_locale();
+
         foreach ($result['updates'] as $key => $e) {
+            
             if ($e['response']  == 'upgrade' && $e['locale'] == $locale) { 
+                
                 $updates['updates'][] = sprintf(__('WordPress %s-%s be update!!', WP_FYI_PG_NAME), $e['version'], $e['locale']);
             }
         }
