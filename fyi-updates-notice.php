@@ -30,6 +30,8 @@ define('WP_FYI_UDATES_NOTICE_FILE', __FILE__);
 
 define('WP_FYI_UDATES_NOTICE_DIR', plugin_dir_path(__FILE__));
 
+define('WP_FYI_UDATES_NOTICE_NAME', plugin_basename( __FILE__ ));
+
 define('WP_FYI_MAIL_TPL', WP_FYI_UDATES_NOTICE_DIR . 'templates/template_mail.php');
 
 require_once(dirname(__FILE__) . '/includes/class-fyi-updates-notice.php');

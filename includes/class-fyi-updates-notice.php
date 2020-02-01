@@ -28,10 +28,15 @@ class FYI_UpdatesNotice
      */
     public function init()
     {
+
+        $plugin_file = plugin_basename( __FILE__ );
+
         add_action('fyi_cron_set', ['FYI_Cron', 'set']);
 
         add_action('admin_menu', [$this, 'plugin_menu']);
         add_action('admin_init', [$this, 'plugin_setting']);
+
+        add_filter('plugin_action_links_' . WP_FYI_UDATES_NOTICE_NAME, array( $this, 'plugin_action_links'));
 
         add_action('fyi_cron_set', ['FYI_Cron', 'set']);
         add_action('fyi_cron_delete', ['FYI_Cron', 'delete']);
@@ -43,6 +48,19 @@ class FYI_UpdatesNotice
             WP_FYI_CRON_DATE => __('1日1回', WP_FYI_PG_NAME),
             WP_FYI_CRON_WEEKLY => __('週1回', WP_FYI_PG_NAME),
         ];
+    }
+    /**
+     * Add link to plugin list
+     *
+     * @param array $links
+     * @return void
+     */
+    public function plugin_action_links($links)
+    {
+        $url = admin_url('admin.php?page=notifier-plugin-config');
+        $url = '<a href="' . esc_url( $url ) . '">' . __('Settings') . '</a>';
+        array_unshift($links, $url);
+        return $links;
     }
     /**
      * Add management menu
@@ -76,7 +94,7 @@ class FYI_UpdatesNotice
         }
 ?>
         <div class="wrap">
-            <h2><?php _e("更新通知", WP_FYI_PG_NAME); ?></h2>
+            <h2><?php _e("WP_FYI_Updates_Notice", WP_FYI_PG_NAME); ?></h2>
             <form method="post" action="<?php echo admin_url("options.php"); ?>">
                 <?php
                 settings_fields('notifier-setting_group');
@@ -135,7 +153,7 @@ class FYI_UpdatesNotice
     public function plugin_setting()
     {
         register_setting('notifier-setting_group', 'fyi_notice_setting_option', [$this, 'validate']);
-        add_settings_section('notifier_id', __('更新情報の通知設定', WP_FYI_PG_NAME), [$this, 'setting_header'], 'notifier-plugin-config');
+        add_settings_section('notifier_id', __('通知頻度と通知先の設定', WP_FYI_PG_NAME), [$this, 'setting_header'], 'notifier-plugin-config');
         add_settings_field('cron', __('通知頻度', WP_FYI_PG_NAME), [$this, 'setting_from_cron'], 'notifier-plugin-config', 'notifier_id');
         add_settings_field('mail', __('通知先メールアドレス', WP_FYI_PG_NAME), [$this, 'setting_from_mail'], 'notifier-plugin-config', 'notifier_id');
     }
@@ -146,7 +164,7 @@ class FYI_UpdatesNotice
      */
     public function setting_header()
     {
-        echo _e('本体・プラグイン等の更新情報の通知先設定を行います。', WP_FYI_PG_NAME);
+        echo _e('本体・プラグイン等の更新が可能になった情報の通知設定を行ってください。', WP_FYI_PG_NAME);
     }
     /**
      * Form cron construction
