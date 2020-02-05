@@ -1,4 +1,4 @@
-# WP_FYI_Updates_Notice
+# wp_fyi_Updates_Notice
 
 ### 概要
 
