@@ -2,13 +2,13 @@
 /**
  * Information that can be manually updated on the main unit and plug-ins will be provided.
  *
- * @package WP_FYI_Updates_Notice
+ * @package wp_fyi_Updates_Notice
  *
- * Plugin Name: WP_FYI_Updates_Notice
+ * Plugin Name: wp_fyi_Updates_Notice
  * Plugin URI: https://daisy.link
  * Description: ご利用中のWordPress本体・プラグイン等で手動更新が可能な情報をお知らせします。
  * Author: DAISY
- * Version: 0.9.0
+ * Version: 0.9.1
  * Text Domain: fyi_notice
  * Domain Path: /languages/
  * Author URI: https://daisy.link
