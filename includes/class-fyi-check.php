@@ -20,9 +20,10 @@ class FYI_Check
     /**
      * all update information
      *
+     * @param boolean $filter
      * @return array $result all update information
      */
-    public function update_check()
+    public function update_check($filter = false)
     {
         $result = [];
         $result['general'] = wp_get_update_data();
@@ -30,6 +31,11 @@ class FYI_Check
         $result['plugins'] = self::plugins();
         $result['themes'] = self::themes();
         $result['translation'] = wp_get_translation_updates();
+
+        if ($filter) {
+            $this->noticeFilter($result);
+        }
+
         return $result;
     }
     /**
@@ -54,7 +60,7 @@ class FYI_Check
             
             if ($e['response']  == 'upgrade' && $e['locale'] == $locale) { 
                 
-                $updates['updates'][] = sprintf(__('WordPress %s-%s be update!!', WP_FYI_PG_NAME), $e['version'], $e['locale']);
+                $updates['updates'][] = sprintf(__('WordPress %s-%s Can be updated!!', FYI_T_DOMAIN), $e['version'], $e['locale']);
             }
         }
         return $updates;
@@ -71,7 +77,7 @@ class FYI_Check
         $result = get_site_transient('update_plugins');
         $result = json_decode(json_encode($result), true);
         foreach ($result['response'] as $key => $e) {
-            $updates['updates'][] = sprintf(__('%s (%s be update!!)', WP_FYI_PG_NAME), $e['slug'], $e['new_version']);
+            $updates['updates'][] = sprintf(__('%s (%s Can be updated!!)', FYI_T_DOMAIN), $e['slug'], $e['new_version']);
         }
         return $updates;
     }
@@ -87,8 +93,37 @@ class FYI_Check
         $result = get_site_transient('update_themes');
         $result = json_decode(json_encode($result), true);
         foreach ($result['response'] as $key => $e) {
-            $updates['updates'][] = sprintf(__('%s (%s be update!!)', WP_FYI_PG_NAME), $key, $e['new_version']);
+            $updates['updates'][] = sprintf(__('%s (%s Can be updated!!)', FYI_T_DOMAIN), $key, $e['new_version']);
         }
         return $updates;
+    }
+    /**
+     * noticeFilter
+     *
+     * @param array $result
+     * @return void
+     */
+    public function noticeFilter(&$result)
+    { 
+
+        $option = get_option('fyi_notice_setting_option');
+
+        foreach ($result['plugins']['updates'] as $key => $plugin) {
+            foreach ($option['tag'] as $tag) {
+                if(strpos($plugin, $tag) !== false){
+                    unset($result['plugins']['updates'][$key]);
+                    break;
+                }
+            }
+        }
+
+        foreach ($result['themes']['updates'] as $key => $plugin) {
+            foreach ($option['tag'] as $tag) {
+                if(strpos($plugin, $tag) !== false){
+                    unset($result['themes']['updates'][$key]);
+                    break;
+                }
+            }
+        }
     }
 }

@@ -58,7 +58,7 @@ class FYI_Mail
     public function subject()
     {
         $site = get_option('blogname');
-        $this->subject = sprintf(__('[ %s ] WordPress更新可能な情報（本体・プラグインなど）のお知らせ !!', WP_FYI_PG_NAME), $site);
+        $this->subject = sprintf(__('[ %s ] Notice of information that can be updated in WordPress (core, plug-in, etc.) !!', FYI_T_DOMAIN), $site);
     }
     /**
      * Body set

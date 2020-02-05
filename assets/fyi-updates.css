@@ -1,0 +1,48 @@
+#fiy_tag  {
+    margin: 0 5px 0 0;
+} 
+#fiy_tags {
+    margin: 10px 0px;
+}
+#fiy_tags span{
+    margin: 0 2px;
+    display:inline-block;
+}
+#fiy_tags .tag {
+    cursor: pointer;
+    font-size: 10px;
+    line-height: 10px;
+    position: relative;
+    border: 1px solid #007cba;
+    border-radius:5px;
+    box-sizing: border-box;
+    padding: 4px 20px 4px 10px;
+    color: #007cba;
+}
+#fiy_tags .tag:hover{
+    background: #007cba;
+    color: #fff;
+}
+#fiy_tags .tag:hover::after,
+#fiy_tags .tag:hover::before{
+    border-color: #fff;
+}
+#fiy_tags .tag::after,
+#fiy_tags .tag::before{
+    content: '';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+}
+#fiy_tags .tag::after {
+    border-top: 1px solid #007cba;
+    transform: rotate(45deg);
+    top: 7px;
+    right: 7px;
+}
+#fiy_tags .tag:before {
+    border-top: 1px solid  #007cba;
+    transform: rotate(-45deg);
+    top: 7px;
+    right: 0px;
+}

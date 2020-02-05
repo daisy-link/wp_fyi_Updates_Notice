@@ -1,0 +1,172 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP_FYI_Updates_Notice\n"
+"POT-Creation-Date: 2020-02-05 21:28+0900\n"
+"PO-Revision-Date: 2020-02-05 21:29+0900\n"
+"Last-Translator: \n"
+"Language-Team: WP_FYI_Updates_Notice\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: includes/class-fyi-check.php:63
+#, php-format
+msgid "WordPress %s-%s Can be updated!!"
+msgstr "WordPress %s-%s 更新できます!!"
+
+#: includes/class-fyi-check.php:80 includes/class-fyi-check.php:96
+#, php-format
+msgid "%s (%s Can be updated!!)"
+msgstr "%s (%s 更新できます!!)"
+
+#: includes/class-fyi-cron.php:96 includes/class-fyi-updates-notice.php:48
+msgid "Once a week"
+msgstr "週に1回"
+
+#: includes/class-fyi-mail.php:61
+#, php-format
+msgid ""
+"[ %s ] Notice of information that can be updated in WordPress (core, plug-"
+"in, etc.) !!"
+msgstr "[ %s ] WordPressで更新できる情報（本体・プラグインなど）の通知!!"
+
+#: includes/class-fyi-updates-notice.php:46
+msgid "Stop"
+msgstr "停止"
+
+#: includes/class-fyi-updates-notice.php:47
+msgid "Once a day"
+msgstr "1日1回"
+
+#: includes/class-fyi-updates-notice.php:72
+msgid "Settings"
+msgstr "設定"
+
+#: includes/class-fyi-updates-notice.php:84
+#: includes/class-fyi-updates-notice.php:167
+msgid "Update notification settings"
+msgstr "更新情報の通知設定"
+
+#: includes/class-fyi-updates-notice.php:85
+msgid "Update Notice"
+msgstr "通知設定"
+
+#: includes/class-fyi-updates-notice.php:108
+msgid "WP_FYI_Updates_Notice"
+msgstr "WP_FYI_Updates_Notice"
+
+#: includes/class-fyi-updates-notice.php:123
+msgid "Current state"
+msgstr "現在の状態"
+
+#: includes/class-fyi-updates-notice.php:124
+msgid "The following information will be notified by email."
+msgstr "次の情報がメールで通知されます。"
+
+#: includes/class-fyi-updates-notice.php:126 templates/template_mail.php:9
+msgid "## Wordpress"
+msgstr "## Wordpress"
+
+#: includes/class-fyi-updates-notice.php:128 templates/template_mail.php:11
+msgid "There is no updatable information."
+msgstr "更新可能な情報はありません。"
+
+#: includes/class-fyi-updates-notice.php:134 templates/template_mail.php:16
+msgid "## Plugin"
+msgstr "## プラグイン"
+
+#: includes/class-fyi-updates-notice.php:136 templates/template_mail.php:18
+msgid "There are no updatable plugins."
+msgstr "更新可能なプラグインはありません。"
+
+#: includes/class-fyi-updates-notice.php:142 templates/template_mail.php:23
+msgid "## Themes"
+msgstr "## テーマ"
+
+#: includes/class-fyi-updates-notice.php:144 templates/template_mail.php:25
+msgid "There are no updatable themes."
+msgstr "更新可能なテーマはありません。"
+
+#: includes/class-fyi-updates-notice.php:150 templates/template_mail.php:30
+msgid "## translation"
+msgstr "## 翻訳"
+
+#: includes/class-fyi-updates-notice.php:152 templates/template_mail.php:32
+msgid "No translations are available for update."
+msgstr "更新できる翻訳はありません。"
+
+#: includes/class-fyi-updates-notice.php:168
+msgid "interval"
+msgstr "間隔"
+
+#: includes/class-fyi-updates-notice.php:169
+msgid "email address"
+msgstr "メールアドレス"
+
+#: includes/class-fyi-updates-notice.php:170
+msgid "Exclude keywords"
+msgstr "除外されるワード"
+
+#: includes/class-fyi-updates-notice.php:179
+msgid "No setting"
+msgstr "設定されていません。"
+
+#: includes/class-fyi-updates-notice.php:182
+#, php-format
+msgid "After %s"
+msgstr "%s 以降に実行"
+
+#: includes/class-fyi-updates-notice.php:185
+msgid ""
+"Set up notification of updatable information such as Worepress / Plugin."
+msgstr "Worepress / Pluginなどの更新可能な情報の通知を設定してください。"
+
+#: includes/class-fyi-updates-notice.php:186
+msgid "Next run"
+msgstr "次の実行日時"
+
+#: includes/class-fyi-updates-notice.php:226
+msgid "5 characters or more"
+msgstr "5文字以上"
+
+#: includes/class-fyi-updates-notice.php:228
+msgid ""
+"Plugin themes you want to exclude from email notifications (exclude keywords "
+"containing keywords))"
+msgstr ""
+"メール通知から除外したいプラグイン・テーマ（キーワードを含むキーワードを除"
+"外）"
+
+#: templates/template_mail.php:2
+msgid "Hello! !"
+msgstr "こんにちは！！"
+
+#: templates/template_mail.php:4
+msgid ""
+"Information that can be updated manually, such as WordPress and plugins, is "
+"shown below."
+msgstr "WordPress・プラグインなど、手動で更新できる情報になります。"
+
+#: templates/template_mail.php:5
+msgid "If you need to update, take action."
+msgstr "更新する必要がある場合は、対処してください。"
+
+#, php-format
+#~ msgid "%s (%s Updates are available!!)"
+#~ msgstr "%s (%s更新できます!!)"
+
+#~ msgid ""
+#~ "Check the contents below and respond to the ones that need to be updated."
+#~ msgstr "以下の内容を確認し、更新する必要があるものに応答してください。"
+
+#~ msgid "update notification settings"
+#~ msgstr "通知設定"
+
+#~ msgid "Notification interval and notification destination settings"
+#~ msgstr "更新情報のお知らせ設定"

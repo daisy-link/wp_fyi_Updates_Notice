@@ -9,6 +9,8 @@
  * Description: ご利用中のWordPress本体・プラグイン等で手動更新が可能な情報をお知らせします。
  * Author: DAISY
  * Version: 0.9.0
+ * Text Domain: fyi_notice
+ * Domain Path: /languages/
  * Author URI: https://daisy.link
  */
 
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
     die('sorry, access this file.');
 }
 
-define('WP_FYI_PG_NAME', 'WP_FYI_Updates_Notice');
+define('FYI_T_DOMAIN', 'fyi_notice');
 
 define('WP_FYI_CRON_NAME', 'fyi-updates-notice_event');
 
@@ -32,7 +34,11 @@ define('WP_FYI_UDATES_NOTICE_DIR', plugin_dir_path(__FILE__));
 
 define('WP_FYI_UDATES_NOTICE_NAME', plugin_basename( __FILE__ ));
 
+define('WP_FYI_UDATES_NOTICE_URL', plugin_dir_url(__FILE__));
+
 define('WP_FYI_MAIL_TPL', WP_FYI_UDATES_NOTICE_DIR . 'templates/template_mail.php');
+
+load_plugin_textdomain(FYI_T_DOMAIN, false, dirname(plugin_basename(__FILE__)) . '/languages');
 
 require_once(dirname(__FILE__) . '/includes/class-fyi-updates-notice.php');
 require_once(dirname(__FILE__) . '/includes/class-fyi-check.php');

@@ -65,11 +65,14 @@ class FYI_Cron
     public function schedule($interval)
     {
         $time = wp_next_scheduled(WP_FYI_CRON_NAME);
+        $schedules = wp_get_schedules();
 
         if ($time) {
             wp_clear_scheduled_hook(WP_FYI_CRON_NAME);
         }
-        wp_schedule_event(time(), $interval, WP_FYI_CRON_NAME);
+        if (isset($schedules[$interval]['interval'])) {
+            wp_schedule_event(time() + $schedules[$interval]['interval'], $interval, WP_FYI_CRON_NAME);
+        }
     }
     /**
      * Cron delete
@@ -90,7 +93,7 @@ class FYI_Cron
     {
         $schedules['weekly'] = [ 
             'interval' => 604800,
-            'display' => __('週1回', WP_FYI_PG_NAME)
+            'display' => __('Once a week', FYI_T_DOMAIN)
         ];
         return $schedules;
     }
@@ -103,7 +106,7 @@ class FYI_Cron
     {
         $option = get_option('fyi_notice_setting_option');
 
-        $objVersion =  new FYI_Check();
+        $objVersion =  new FYI_Check($option['tag']);
         $version = $objVersion->update_check();
 
         if (isset($option['mail']) && $version && !empty($option['mail'])){

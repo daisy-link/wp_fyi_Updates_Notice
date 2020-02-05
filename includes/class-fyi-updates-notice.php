@@ -28,15 +28,14 @@ class FYI_UpdatesNotice
      */
     public function init()
     {
-
         $plugin_file = plugin_basename( __FILE__ );
 
         add_action('fyi_cron_set', ['FYI_Cron', 'set']);
-
         add_action('admin_menu', [$this, 'plugin_menu']);
         add_action('admin_init', [$this, 'plugin_setting']);
+        add_action('admin_head',[$this, 'plugin_style']);
 
-        add_filter('plugin_action_links_' . WP_FYI_UDATES_NOTICE_NAME, array( $this, 'plugin_action_links'));
+        add_filter('plugin_action_links_' . WP_FYI_UDATES_NOTICE_NAME, [$this, 'plugin_action_links']);
 
         add_action('fyi_cron_set', ['FYI_Cron', 'set']);
         add_action('fyi_cron_delete', ['FYI_Cron', 'delete']);
@@ -44,11 +43,23 @@ class FYI_UpdatesNotice
         add_filter('cron_schedules', ['FYI_Cron', 'weekly_add_interval']);
 
         $this->interval = [
-            WP_FYI_CRON_STOP => __('停止', WP_FYI_PG_NAME),
-            WP_FYI_CRON_DATE => __('1日1回', WP_FYI_PG_NAME),
-            WP_FYI_CRON_WEEKLY => __('週1回', WP_FYI_PG_NAME),
+            WP_FYI_CRON_STOP => __('Stop', FYI_T_DOMAIN),
+            WP_FYI_CRON_DATE => __('Once a day', FYI_T_DOMAIN),
+            WP_FYI_CRON_WEEKLY => __('Once a week', FYI_T_DOMAIN),
         ];
     }
+    /**
+     * Load style.js.
+     *
+     * @return void
+     */
+    public function plugin_style()
+    {
+        wp_enqueue_style(FYI_T_DOMAIN, WP_FYI_UDATES_NOTICE_URL. 'assets/fyi-updates.css');
+        wp_enqueue_script(FYI_T_DOMAIN, WP_FYI_UDATES_NOTICE_URL. 'assets/fyi-updates.js');
+    }
+
+    //admin_headで管理画面のCSSを追加
     /**
      * Add link to plugin list
      *
@@ -70,8 +81,8 @@ class FYI_UpdatesNotice
     public function plugin_menu()
     {
         add_options_page(
-            __('更新通知の設定', WP_FYI_PG_NAME),
-            __('更新通知', WP_FYI_PG_NAME),
+            __('Update notification settings', FYI_T_DOMAIN),
+            __('Update Notice', FYI_T_DOMAIN),
             'administrator',
             'notifier-plugin-config',
             [$this, 'setting_page']
@@ -89,12 +100,12 @@ class FYI_UpdatesNotice
         $fyi_option = get_option('fyi_notice_setting_option');
 
         if (!$fyi_option) {
-            $fyi_option = ['cron' => 0, 'mail' => ''];
+            $fyi_option = ['cron' => 0, 'mail' => '','tags' => ''];
             update_option('fyi_notice_setting_option', $fyi_option);
         }
 ?>
         <div class="wrap">
-            <h2><?php _e("WP_FYI_Updates_Notice", WP_FYI_PG_NAME); ?></h2>
+            <h2><?php _e("WP_FYI_Updates_Notice", FYI_T_DOMAIN); ?></h2>
             <form method="post" action="<?php echo admin_url("options.php"); ?>">
                 <?php
                 settings_fields('notifier-setting_group');
@@ -109,36 +120,36 @@ class FYI_UpdatesNotice
         $version = $objVersion->update_check();
         ?>
         <hr>
-        <h3>現在の状態</h3>
-        <p><?php echo  _e('以下の情報がメールにて通知されます。', WP_FYI_PG_NAME);?></p>
+        <h3><?php echo  _e('Current state', FYI_T_DOMAIN); ?></h3>
+        <p><?php echo  _e('The following information will be notified by email.', FYI_T_DOMAIN);?></p>
 
-        <h4>本体</h4>
+        <h4><?php echo  _e('## Wordpress', FYI_T_DOMAIN); ?></h4>
         <?php if (empty($version['core']['updates'])) : ?>
-            <p><?php echo  _e('更新可能な情報はありません。', WP_FYI_PG_NAME); ?></p>
+            <p><?php echo  _e('There is no updatable information.', FYI_T_DOMAIN); ?></p>
             <?php else : foreach ($version['core']['updates'] as $key => $value) : ?>
                 <p>- <?php echo $value; ?></p>
         <?php endforeach;
         endif; ?>
 
-        <h4>プラグイン</h4>
+        <h4><?php echo  _e('## Plugin', FYI_T_DOMAIN); ?></h4>
         <?php if (empty($version['plugins']['updates'])) : ?>
-            <p><?php echo  _e('更新可能なプラグインはありません。', WP_FYI_PG_NAME); ?></p>
+            <p><?php echo  _e('There are no updatable plugins.', FYI_T_DOMAIN); ?></p>
             <?php else : foreach ($version['plugins']['updates'] as $key => $value) : ?>
                 <p>- <?php echo $value; ?></p>
         <?php endforeach;
         endif; ?>
 
-        <h4>テーマ</h4>
+        <h4><?php echo  _e('## Themes', FYI_T_DOMAIN); ?></h4>
         <?php if (empty($version['themes']['updates'])) : ?>
-            <p><?php echo  _e('更新可能なテーマはありません。', WP_FYI_PG_NAME); ?></p>
+            <p><?php echo  _e('There are no updatable themes.', FYI_T_DOMAIN); ?></p>
             <?php else : foreach ($version['themes']['updates'] as $key => $value) : ?>
                 <p>- <?php echo $value; ?></p>
         <?php endforeach;
         endif; ?>
 
-        <h4>翻訳</h4>
+        <h4><?php echo  _e('## translation', FYI_T_DOMAIN); ?></h4>
         <?php if (empty($version['translation'])) : ?>
-            <p><?php echo  _e('更新可能な翻訳はありません。', WP_FYI_PG_NAME); ?></p>
+            <p><?php echo  _e('No translations are available for update.', FYI_T_DOMAIN); ?></p>
             <?php else : foreach ($version['translation'] as $key => $value) : ?>
                 <p>- <?php echo $value; ?></p>
         <?php endforeach;
@@ -153,9 +164,10 @@ class FYI_UpdatesNotice
     public function plugin_setting()
     {
         register_setting('notifier-setting_group', 'fyi_notice_setting_option', [$this, 'validate']);
-        add_settings_section('notifier_id', __('通知頻度と通知先の設定', WP_FYI_PG_NAME), [$this, 'setting_header'], 'notifier-plugin-config');
-        add_settings_field('cron', __('通知頻度', WP_FYI_PG_NAME), [$this, 'setting_from_cron'], 'notifier-plugin-config', 'notifier_id');
-        add_settings_field('mail', __('通知先メールアドレス', WP_FYI_PG_NAME), [$this, 'setting_from_mail'], 'notifier-plugin-config', 'notifier_id');
+        add_settings_section('notifier_id', __('Update notification settings', FYI_T_DOMAIN), [$this, 'setting_header'], 'notifier-plugin-config');
+        add_settings_field('cron', __('interval', FYI_T_DOMAIN), [$this, 'setting_from_cron'], 'notifier-plugin-config', 'notifier_id');
+        add_settings_field('mail', __('email address', FYI_T_DOMAIN), [$this, 'setting_from_mail'], 'notifier-plugin-config', 'notifier_id');
+        add_settings_field('exclude', __('Exclude keywords', FYI_T_DOMAIN), [$this, 'setting_from_exclude'], 'notifier-plugin-config', 'notifier_id');
     }
     /**
      * Form Page  header
@@ -164,7 +176,15 @@ class FYI_UpdatesNotice
      */
     public function setting_header()
     {
-        echo _e('本体・プラグイン等の更新が可能になった情報の通知設定を行ってください。', WP_FYI_PG_NAME);
+        $runmss = __('No setting', FYI_T_DOMAIN);
+        $time = wp_next_scheduled(WP_FYI_CRON_NAME);
+        if ($time) {
+            $runmss = sprintf(__('After %s', FYI_T_DOMAIN), date('Y-m-d H:i', $time));
+        }
+        ?>
+        <p><?php echo _e('Set up notification of updatable information such as Worepress / Plugin.', FYI_T_DOMAIN); ?>
+        <p><strong><?php echo _e('Next run', FYI_T_DOMAIN); ?>：<?php echo $runmss; ?></strong></p>
+        <?php
     }
     /**
      * Form cron construction
@@ -177,7 +197,7 @@ class FYI_UpdatesNotice
     ?>
         <select id="cron" name="fyi_notice_setting_option[cron]">
             <?php foreach ($this->interval as $key => $value) : $selected = ($key == $fyi_option['cron']) ? ' selected' : ''; ?>
-                <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo _e($value, WP_FYI_PG_NAME); ?></option>
+                <option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo _e($value, FYI_T_DOMAIN); ?></option>
             <?php endforeach; ?>
         </select>
     <?php
@@ -192,6 +212,25 @@ class FYI_UpdatesNotice
         global $fyi_option;
     ?>
         <input type="email" name="fyi_notice_setting_option[mail]" size="30" maxlength="40" value="<?php echo $fyi_option['mail']; ?>">
+<?php
+    }
+    /**
+     * Form exclude construction
+     *
+     * @return void
+     */
+    public function setting_from_exclude()
+    {
+        global $fyi_option;
+    ?>
+    <input id="fiy_tag" type="text" name="fyi_notice_setting_option[tag][]" minlength="5" size="20" maxlength="20" placeholder="<?php echo _e('5 characters or more', FYI_T_DOMAIN); ?>" >
+    <input id="fiy_tagbtn" type="button" value="追加" class="button action" disabled>
+    <p class="description"><?php echo _e('Plugin themes you want to exclude from email notifications (exclude keywords containing keywords))', FYI_T_DOMAIN); ?></p>
+    <div id="fiy_tags">
+    <?php foreach ($fyi_option['tag'] as $tag): if (!empty($tag)):?>
+        <span class="tag"><input type="hidden" name="fyi_notice_setting_option[tag][]" value="<?php echo esc_html($tag); ?>"><?php echo esc_html($tag); ?></span>
+    <?php endif; endforeach;?>
+    </div>
 <?php
     }
     /**
