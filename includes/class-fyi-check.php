@@ -30,7 +30,7 @@ class FYI_Check
         $result['core'] = self::core();
         $result['plugins'] = self::plugins();
         $result['themes'] = self::themes();
-        $result['translation'] = wp_get_translation_updates();
+        $result['translation'] = self::translation();
 
         if ($filter) {
             $this->noticeFilter($result);
@@ -94,6 +94,25 @@ class FYI_Check
         $result = json_decode(json_encode($result), true);
         foreach ($result['response'] as $key => $e) {
             $updates['updates'][] = sprintf(__('%s (%s Can be updated!!)', FYI_T_DOMAIN), $key, $e['new_version']);
+        }
+        return $updates;
+    }
+    /**
+     * translation update information
+     *
+     * @return array $updates update information
+     */
+    public function translation()
+    { 
+        $updates = [];
+        $result = [];
+        $result = wp_get_translation_updates();
+        $result = json_decode(json_encode($result), true);
+
+        
+        foreach ($result as $key => $e) {
+
+            $updates['updates'][] = sprintf(__('%s lang-%s (%s Can be updated!!)', FYI_T_DOMAIN), $e['type'], $e['language'], $e['version']);
         }
         return $updates;
     }

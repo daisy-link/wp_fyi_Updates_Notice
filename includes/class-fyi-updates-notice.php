@@ -148,9 +148,9 @@ class FYI_UpdatesNotice
         endif; ?>
 
         <h4><?php echo  _e('## translation', FYI_T_DOMAIN); ?></h4>
-        <?php if (empty($version['translation'])) : ?>
+        <?php if (empty($version['translation']['updates'])) : ?>
             <p><?php echo  _e('No translations are available for update.', FYI_T_DOMAIN); ?></p>
-            <?php else : foreach ($version['translation'] as $key => $value) : ?>
+            <?php else : foreach ($version['translation']['updates'] as $key => $value) : ?>
                 <p>- <?php echo $value; ?></p>
         <?php endforeach;
         endif; ?>
