@@ -227,7 +227,7 @@ class FYI_UpdatesNotice
     <input id="fiy_tagbtn" type="button" value="追加" class="button action" disabled>
     <p class="description"><?php echo _e('Plugin themes you want to exclude from email notifications (exclude keywords containing keywords))', FYI_T_DOMAIN); ?></p>
     <div id="fiy_tags">
-    <?php foreach ($fyi_option['tag'] as $tag): if (!empty($tag)):?>
+    <?php foreach ((array)$fyi_option['tag'] as $tag): if (!empty($tag)):?>
         <span class="tag"><input type="hidden" name="fyi_notice_setting_option[tag][]" value="<?php echo esc_html($tag); ?>"><?php echo esc_html($tag); ?></span>
     <?php endif; endforeach;?>
     </div>
